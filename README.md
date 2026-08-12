@@ -24,6 +24,8 @@ cp .env.example .env.local
 npm run dev
 ```
 
+当前公开测试地址：[https://sbti.104.207.92.83.nip.io](https://sbti.104.207.92.83.nip.io)。这是临时公网域名，绑定品牌域名后替换。
+
 商业化入口通过环境变量配置：
 
 ```bash
@@ -32,6 +34,16 @@ VITE_BUSINESS_URL=https://你的商务表单
 ```
 
 漏斗事件会写入本地 `localStorage`，同时通过 `sb-index:funnel` 浏览器事件发出，可直接接入 PostHog、Umami 或自有统计系统。
+
+## 部署
+
+项目已部署在新加坡服务器的 `/var/www/sb-index`，由 Caddy 托管。更新生产站：
+
+```bash
+npm run deploy
+```
+
+自定义域名配置模板见 [`deploy/Caddyfile.example`](./deploy/Caddyfile.example)。
 
 ## 验证
 

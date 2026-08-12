@@ -1,0 +1,23 @@
+# 自定义域名上线后，把域名替换为真实值并将 DNS A 记录指向服务器。
+sbindex.example.com {
+	encode zstd gzip
+
+	root * /var/www/sb-index
+	try_files {path} /index.html
+	file_server
+
+	@versionedAssets path /assets/*
+	header @versionedAssets Cache-Control "public, max-age=31536000, immutable"
+
+	@spaDocuments not path /assets/*
+	header @spaDocuments Cache-Control "no-cache, no-store, must-revalidate"
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+}

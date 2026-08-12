@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "bash deploy/deploy.sh",
     "lint": "oxlint",
     "preview": "vite preview",
     "test:distribution": "tsx scripts/validate-distribution.ts",
