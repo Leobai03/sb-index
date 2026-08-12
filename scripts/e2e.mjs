@@ -20,7 +20,7 @@ for (let index = 0; index < 27; index += 1) {
 await page.waitForSelector('.result-hero')
 const gapCount = await page.locator('.gap-item').count()
 const rankCount = await page.locator('.rank-row').count()
-if (gapCount !== 3 || rankCount !== 9) {
+if (gapCount !== 3 || rankCount !== 16) {
   throw new Error(`结果结构异常：gap=${gapCount}, rank=${rankCount}`)
 }
 

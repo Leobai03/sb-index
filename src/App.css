@@ -207,15 +207,15 @@
 .section-heading .section-kicker { grid-column: 1 / -1; }
 .section-heading h2 { font-size: clamp(46px, 5vw, 72px); line-height: .98; letter-spacing: -.065em; margin: 0; }
 .section-heading > p:last-child { font-size: 17px; line-height: 1.75; color: var(--muted); font-weight: 600; max-width: 440px; }
-.persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.persona-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
 .persona-card {
-  min-height: 400px;
+  min-height: 360px;
   border-right: 2px solid var(--ink);
   border-bottom: 2px solid var(--ink);
   background: var(--persona-light);
   position: relative;
   overflow: hidden;
-  padding: 30px;
+  padding: 24px;
   transition: background .2s ease;
 }
 .persona-card:hover { background: var(--white); }
@@ -223,7 +223,7 @@
 .persona-card:hover .polygon-avatar { transform: translateY(-8px) rotate(2deg); }
 .persona-number { position: absolute; top: 24px; left: 26px; font: 900 14px Arial Black, sans-serif; }
 .persona-card-content p { font-size: 10px; letter-spacing: .08em; font-weight: 900; color: #6d7168; margin: 0 0 10px; text-transform: uppercase; }
-.persona-card-content h3 { font-size: 31px; letter-spacing: -.05em; margin: 0 0 10px; }
+.persona-card-content h3 { font-size: 27px; letter-spacing: -.05em; margin: 0 0 10px; }
 .persona-card-content span { font-size: 14px; line-height: 1.65; font-weight: 650; color: #4f534c; }
 
 .theory-section { width: min(1200px, calc(100% - 40px)); margin: 0 auto; padding: 10px 0 130px; display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; }

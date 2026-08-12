@@ -8,6 +8,13 @@ export type PersonaCode =
   | 'WIND'
   | 'KING'
   | 'DEAD'
+  | 'LATER'
+  | 'OJBK'
+  | 'RUSH'
+  | 'LOOP'
+  | 'PURE'
+  | 'NOPE'
+  | 'COIN'
 
 export type GapDimension =
   | '目标诚实'
@@ -29,6 +36,23 @@ export interface Persona {
   lightColor: string
   symbol: string
   expression: 'strict' | 'soft' | 'smug' | 'sad' | 'blank' | 'nervous' | 'wild' | 'angry' | 'sleepy'
+  pose:
+    | 'grass'
+    | 'hug'
+    | 'crown'
+    | 'rain'
+    | 'head'
+    | 'shell'
+    | 'monkey'
+    | 'control'
+    | 'coffin'
+    | 'calendar'
+    | 'shrug'
+    | 'rocket'
+    | 'loop'
+    | 'halo'
+    | 'brick'
+    | 'money'
 }
 
 export interface OptionWeight {

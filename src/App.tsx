@@ -249,7 +249,7 @@ function App() {
           </article>
 
           <article className="result-card ranking-card">
-            <p className="card-label">九人格成分表</p>
+            <p className="card-label">人格成分表</p>
             <h2>别担心，你不止一种毛病</h2>
             <div className="ranking-list">
               {sortedPersonaScores.map(({ persona, score }, index) => (
@@ -280,7 +280,7 @@ function App() {
           <span className="brand-mark">SB</span><span>知行偏离测试</span>
         </button>
         <nav>
-          <a href="#types">九种人格</a>
+          <a href="#types">人格图鉴</a>
           <a href="#theory">它测什么</a>
           {result && <button className="plain-button result-link" type="button" onClick={() => setScreen('result')}>上次结果</button>}
         </nav>
@@ -301,11 +301,11 @@ function App() {
           <div className="hero-meta">
             <span><b>27</b> 道荒诞选择题</span>
             <span><b>3</b> 分钟完成</span>
-            <span><b>9</b> 种傻逼人格</span>
+            <span><b>全</b> 是选择题</span>
           </div>
         </div>
 
-        <div className="hero-visual" aria-label="九种人格角色预览">
+        <div className="hero-visual" aria-label="抽象人格角色预览">
           <div className="hero-poster-label">SBTI 的远房穷亲戚</div>
           <div className="avatar-crowd">
             {personas.slice(0, 6).map((persona, index) => (
@@ -325,14 +325,14 @@ function App() {
 
       <section className="types-section" id="types">
         <div className="section-heading">
-          <p className="section-kicker">九型人格 × 中文互联网现状</p>
-          <h2>九种人格，<br />九种自我解释方式</h2>
-          <p>借九型人格的动机结构，重新命名当代人的九种傻逼姿势。</p>
+          <p className="section-kicker">动机原型 × 中文互联网现状</p>
+          <h2>这里没有正常人，<br />只有不同的解释方式</h2>
+          <p>把当代人常见的自我欺骗，重新做成一份不完全人格图鉴。</p>
         </div>
         <div className="persona-grid">
           {personas.map((persona, index) => (
             <article className="persona-card" key={persona.code} style={{ '--persona-color': persona.color, '--persona-light': persona.lightColor } as React.CSSProperties}>
-              <div className="persona-number">0{index + 1}</div>
+              <div className="persona-number">{String(index + 1).padStart(2, '0')}</div>
               <PolygonAvatar persona={persona} size={155} />
               <div className="persona-card-content">
                 <p>{persona.code} · {persona.enneagram}</p>
@@ -348,7 +348,7 @@ function App() {
         <div className="formula-card">
           <p className="section-kicker">核心公式</p>
           <div className="formula"><span>傻逼指数</span><b>=</b><span>嘴上认同</span><b>−</b><span>实际行为</span></div>
-          <p>九组题目在不同位置偷偷配对。你怎么理解一件事，和过去 30 天实际上怎么做，差得越远，指数越高。</p>
+          <p>不同位置的题目会偷偷配对。你怎么理解一件事，和过去 30 天实际上怎么做，差得越远，指数越高。</p>
         </div>
         <div className="theory-points">
           <article><span>01</span><h3>不测智商</h3><p>聪明和傻逼可以同时存在，而且经常合租。</p></article>

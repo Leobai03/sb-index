@@ -76,25 +76,35 @@ export function calculateResult(answers: AnswerMap): QuizResult {
     return [dimension, score]
   })) as Record<GapDimension, number>
 
-  const normalizedPersonaScores = Object.fromEntries(personas.map((persona) => {
-    const maximumPossible = questions.reduce((sum, question) => {
-      const bestOnQuestion = Math.max(
-        0,
-        ...question.options.map((option) =>
-          option.weights
-            .filter((weight) => weight.persona === persona.code)
-            .reduce((optionSum, weight) => optionSum + weight.weight, 0),
-        ),
+  // 不同人格在题库里的触发次数不同，直接比原始分会天然偏向“出镜多”的人格。
+  // 这里用随机作答时的期望值与方差做标准化，让每种人格都按“超出自身基线
+  // 多少”来竞争，而不是按累计露面次数竞争。
+  const standardizedPersonaScores = Object.fromEntries(personas.map((persona) => {
+    let expected = 0
+    let variance = 0
+
+    questions.forEach((question) => {
+      const optionValues = question.options.map((option) =>
+        option.weights
+          .filter((weight) => weight.persona === persona.code)
+          .reduce((sum, weight) => sum + weight.weight, 0),
       )
-      return sum + bestOnQuestion
-    }, 0)
-    return [
-      persona.code,
-      maximumPossible > 0 ? Math.round((personaScores[persona.code] / maximumPossible) * 100) : 0,
-    ]
+      const optionMean = optionValues.reduce((sum, value) => sum + value, 0) / optionValues.length
+      const optionVariance = optionValues.reduce((sum, value) => sum + ((value - optionMean) ** 2), 0) / optionValues.length
+      expected += optionMean
+      variance += optionVariance
+    })
+
+    const zScore = variance > 0 ? (personaScores[persona.code] - expected) / Math.sqrt(variance) : 0
+    return [persona.code, zScore]
   })) as Record<PersonaCode, number>
 
-  const topPersonaCode = (Object.entries(normalizedPersonaScores) as [PersonaCode, number][])
+  const normalizedPersonaScores = Object.fromEntries(personas.map((persona) => {
+    const zScore = standardizedPersonaScores[persona.code]
+    return [persona.code, Math.round(Math.max(0, Math.min(100, 50 + (zScore * 18))))]
+  })) as Record<PersonaCode, number>
+
+  const topPersonaCode = (Object.entries(standardizedPersonaScores) as [PersonaCode, number][])
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0]
   const { level, note } = getResultLevel(index)
 
