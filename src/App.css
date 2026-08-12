@@ -165,7 +165,7 @@
   z-index: 3;
 }
 .avatar-crowd { position: absolute; inset: 0; }
-.crowd-item { position: absolute; display: flex; flex-direction: column; align-items: center; font: 900 12px Arial Black, sans-serif; }
+.crowd-item { position: absolute; display: flex; flex-direction: column; align-items: center; font: 900 11px "PingFang SC", sans-serif; }
 .crowd-item span { background: var(--white); border: 2px solid var(--ink); padding: 3px 7px; margin-top: -20px; z-index: 2; }
 .crowd-item .polygon-avatar { animation: bob 3.8s ease-in-out infinite; }
 .crowd-1 { left: 5%; top: 16%; transform: rotate(-8deg); }
@@ -219,7 +219,7 @@
   transition: background .2s ease;
 }
 .persona-card:hover { background: var(--white); }
-.persona-card .polygon-avatar { display: block; margin: -5px auto -10px; transition: transform .25s ease; }
+.persona-card .polygon-avatar { display: block; margin: -14px auto -12px; transition: transform .25s ease; }
 .persona-card:hover .polygon-avatar { transform: translateY(-8px) rotate(2deg); }
 .persona-number { position: absolute; top: 24px; left: 26px; font: 900 14px Arial Black, sans-serif; }
 .persona-card-content p { font-size: 10px; letter-spacing: .08em; font-weight: 900; color: #6d7168; margin: 0 0 10px; text-transform: uppercase; }

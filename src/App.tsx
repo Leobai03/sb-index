@@ -310,8 +310,8 @@ function App() {
           <div className="avatar-crowd">
             {personas.slice(0, 6).map((persona, index) => (
               <div className={`crowd-item crowd-${index + 1}`} key={persona.code}>
-                <PolygonAvatar persona={persona} size={index === 1 || index === 4 ? 165 : 145} />
-                <span>{persona.code}</span>
+                <PolygonAvatar persona={persona} size={index === 1 || index === 4 ? 178 : 158} />
+                <span>{persona.name}</span>
               </div>
             ))}
           </div>
@@ -333,7 +333,7 @@ function App() {
           {personas.map((persona, index) => (
             <article className="persona-card" key={persona.code} style={{ '--persona-color': persona.color, '--persona-light': persona.lightColor } as React.CSSProperties}>
               <div className="persona-number">{String(index + 1).padStart(2, '0')}</div>
-              <PolygonAvatar persona={persona} size={155} />
+              <PolygonAvatar persona={persona} size={175} />
               <div className="persona-card-content">
                 <p>{persona.code} · {persona.enneagram}</p>
                 <h3>{persona.name}</h3>
