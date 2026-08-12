@@ -24,7 +24,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-当前公开测试地址：[https://sbti.104.207.92.83.nip.io](https://sbti.104.207.92.83.nip.io)。这是临时公网域名，绑定品牌域名后替换。
+当前正式公网地址：[https://tiance.icu/sbti/](https://tiance.icu/sbti/)。备用独立地址：[https://sbti.104.207.92.83.nip.io](https://sbti.104.207.92.83.nip.io)。
 
 商业化入口通过环境变量配置：
 
@@ -37,7 +37,7 @@ VITE_BUSINESS_URL=https://你的商务表单
 
 ## 部署
 
-项目已部署在新加坡服务器的 `/var/www/sb-index`，由 Caddy 托管。更新生产站：
+项目已部署在新加坡服务器的 `/var/www/sb-index-path`，由 Caddy 托管。更新生产站：
 
 ```bash
 npm run deploy
