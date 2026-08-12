@@ -296,6 +296,25 @@ footer p:last-child { text-align: right; }
 .share-bar > div:first-child { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; }
 .share-actions { display: flex; gap: 12px; }
 .toast { position: fixed; z-index: 50; left: 50%; bottom: 28px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 13px 20px; border: 2px solid var(--green); box-shadow: 5px 5px 0 var(--green); font-size: 13px; font-weight: 850; white-space: nowrap; }
+.premium-offer { width: min(1200px, calc(100% - 40px)); margin: 22px auto 0; border: 3px solid var(--ink); background: #fff0c8; display: grid; grid-template-columns: .82fr 1.18fr; box-shadow: 10px 10px 0 var(--ink); }
+.premium-copy { padding: 48px; border-right: 3px solid var(--ink); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.premium-copy h2 { margin: 0 0 18px; font-size: 45px; line-height: 1.02; letter-spacing: -.055em; }
+.premium-copy > p:not(.card-label) { margin: 0; max-width: 440px; color: #5b584f; font-size: 14px; line-height: 1.8; font-weight: 650; }
+.premium-price { display: flex; align-items: baseline; gap: 12px; margin: 25px 0 20px; }
+.premium-price strong { font: 950 38px/1 Arial Black, sans-serif; }
+.premium-price del { color: #89857b; font-weight: 800; }
+.premium-price span { color: #68655d; font-size: 11px; font-weight: 800; }
+.premium-button { padding-inline: 24px; }
+.premium-copy small { display: flex; align-items: center; gap: 6px; margin-top: 17px; color: #706c63; font-size: 10px; font-weight: 750; }
+.premium-features { padding: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.premium-features article { position: relative; min-height: 175px; border: 2px solid var(--ink); background: var(--white); padding: 23px; }
+.premium-features article > span { position: absolute; right: 18px; top: 17px; font: 900 10px Arial Black, sans-serif; color: #8a877f; }
+.premium-features article svg { color: var(--green-dark); margin-bottom: 20px; }
+.premium-features h3 { margin: 0 0 9px; font-size: 19px; }
+.premium-features p { margin: 0; color: #66635b; font-size: 12px; line-height: 1.65; font-weight: 650; }
+.premium-features .business-card { background: var(--ink); color: #fff; }
+.premium-features .business-card p { color: #c9cdc3; }
+.business-card button { display: inline-flex; align-items: center; gap: 5px; border: 0; border-bottom: 2px solid var(--green); background: transparent; color: var(--green); padding: 0 0 4px; margin-top: 17px; font-size: 12px; font-weight: 900; cursor: pointer; }
 .result-grid { width: min(1200px, calc(100% - 40px)); margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 20px 0 100px; }
 .result-card { border: 2px solid var(--ink); background: var(--white); padding: 36px; }
 .card-label { color: var(--green-dark); font-size: 11px; font-weight: 950; letter-spacing: .11em; margin: 0 0 18px; text-transform: uppercase; }
@@ -343,6 +362,8 @@ footer p:last-child { text-align: right; }
   .result-hero { grid-template-columns: 1fr; }
   .result-index-block { border-right: 0; border-bottom: 3px solid var(--ink); align-items: center; text-align: center; }
   .result-grid { grid-template-columns: 1fr; }
+  .premium-offer { grid-template-columns: 1fr; }
+  .premium-copy { border-right: 0; border-bottom: 3px solid var(--ink); }
   .result-card, .gap-card, .ranking-card { grid-column: auto; }
   .radar-card { grid-template-columns: 1fr 1fr; }
 }
@@ -396,7 +417,7 @@ footer p:last-child { text-align: right; }
   .option-letter { width: 34px; height: 34px; }
   .option-text { font-size: 14px; }
 
-  .result-hero, .share-bar, .result-grid { width: calc(100% - 28px); }
+  .result-hero, .share-bar, .premium-offer, .result-grid { width: calc(100% - 28px); }
   .result-hero { margin-top: 26px; box-shadow: 7px 7px 0 var(--ink); }
   .result-index-block { padding: 48px 22px; }
   .score-number { font-size: 125px; }
@@ -406,6 +427,12 @@ footer p:last-child { text-align: right; }
   .share-bar { flex-direction: column; align-items: stretch; gap: 18px; padding: 22px 0; }
   .share-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .share-actions .primary-button { width: auto; }
+  .premium-copy { padding: 32px 22px; }
+  .premium-copy h2 { font-size: 37px; }
+  .premium-price { flex-wrap: wrap; }
+  .premium-price span { width: 100%; }
+  .premium-features { grid-template-columns: 1fr; padding: 14px; }
+  .premium-features article { min-height: 155px; }
   .result-grid { padding-bottom: 70px; }
   .result-card { padding: 27px 22px; }
   .roast-card blockquote { font-size: 23px; }

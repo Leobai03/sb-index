@@ -5,16 +5,22 @@ import {
   Check,
   ChevronLeft,
   Download,
+  FileText,
+  LockKeyhole,
   RotateCcw,
   Share2,
   Sparkles,
   Timer,
+  Users,
+  WalletCards,
 } from 'lucide-react'
 import './App.css'
 import PolygonAvatar from './components/PolygonAvatar'
 import RadarChart from './components/RadarChart'
+import { monetization } from './config/monetization'
 import { personas } from './data/personas'
 import questions from './data/questions'
+import { trackFunnelEvent } from './lib/analytics'
 import { calculateResult } from './lib/scoring'
 import { downloadShareCard, shareResult } from './lib/shareCard'
 import type { AnswerMap, QuizResult } from './types'
@@ -72,6 +78,7 @@ function App() {
     const firstUnanswered = questions.findIndex((question) => !answers[question.id])
     setQuestionIndex(firstUnanswered >= 0 ? firstUnanswered : 0)
     setScreen('quiz')
+    trackFunnelEvent('quiz_started', { resumed: firstUnanswered > 0, answeredCount })
   }
 
   function selectAnswer(optionId: string) {
@@ -85,6 +92,7 @@ function App() {
         const nextResult = calculateResult(nextAnswers)
         setResult(nextResult)
         localStorage.setItem(RESULT_KEY, JSON.stringify(nextResult))
+        trackFunnelEvent('quiz_completed', { index: nextResult.index, persona: nextResult.persona.code })
         setScreen('result')
       } else {
         setQuestionIndex((index) => index + 1)
@@ -114,12 +122,38 @@ function App() {
     if (!result) return
     try {
       const status = await shareResult(result)
+      trackFunnelEvent('result_shared', { method: status, persona: result.persona.code })
       setShareNotice(status === 'shared' ? '已经叫系统把你公开处刑了' : '海报已下载，文案已复制')
     } catch {
       downloadShareCard(result)
       setShareNotice('海报已下载')
     }
     window.setTimeout(() => setShareNotice(''), 2600)
+  }
+
+  function handleCheckout() {
+    if (!result) return
+    trackFunnelEvent('report_checkout_clicked', { price: monetization.reportPrice, persona: result.persona.code, index: result.index })
+
+    if (monetization.checkoutEnabled) {
+      const checkout = new URL(monetization.checkoutUrl)
+      checkout.searchParams.set('reference', `${result.persona.code}-${result.index}`)
+      window.open(checkout.toString(), '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    setShareNotice('付费入口代码已就位，配置 VITE_CHECKOUT_URL 后即可收款')
+    window.setTimeout(() => setShareNotice(''), 3200)
+  }
+
+  function handleBusiness() {
+    trackFunnelEvent('business_clicked')
+    if (monetization.businessEnabled) {
+      window.open(monetization.businessUrl, '_blank', 'noopener,noreferrer')
+      return
+    }
+    setShareNotice('商务入口待配置：VITE_BUSINESS_URL')
+    window.setTimeout(() => setShareNotice(''), 3200)
   }
 
   if (screen === 'quiz') {
@@ -203,6 +237,25 @@ function App() {
             <button type="button" className="primary-button small" onClick={handleShare}><Share2 size={18} />公开处刑</button>
           </div>
           {shareNotice && <div className="toast">{shareNotice}</div>}
+        </section>
+
+        <section className="premium-offer">
+          <div className="premium-copy">
+            <p className="card-label">测试永久免费 · 深度报告首发</p>
+            <h2>已经被骂了，<br />不如把账算完。</h2>
+            <p>免费结果负责告诉你是什么病，完整知行对账书负责告诉你：具体在哪打脸，以及明天先改哪一步。</p>
+            <div className="premium-price"><strong>{monetization.reportPrice}</strong><del>{monetization.originalPrice}</del><span>一次购买 · 不自动续费</span></div>
+            <button type="button" className="primary-button premium-button" onClick={handleCheckout}>
+              <WalletCards size={20} />{monetization.reportPrice} 解锁完整报告
+            </button>
+            <small><LockKeyhole size={13} />基础人格、指数和分享海报永久免费。</small>
+          </div>
+          <div className="premium-features">
+            <article><span>01</span><FileText size={24} /><h3>全部知行对账</h3><p>不只展示前三处，完整拆解每组认知与行为的偏离。</p></article>
+            <article><span>02</span><Sparkles size={24} /><h3>30 天反拧巴计划</h3><p>根据最高偏离维度，生成能执行、能验证的行动清单。</p></article>
+            <article><span>03</span><Users size={24} /><h3>MBTI × SB 组合</h3><p>同一个 MBTI，为什么会活成完全不同的互联网人格。</p></article>
+            <article className="business-card"><span>B2B</span><h3>品牌联名测试</h3><p>给品牌、活动和社群定制题库、人格与分享海报。</p><button type="button" onClick={handleBusiness}>商务合作 <ArrowRight size={15} /></button></article>
+          </div>
         </section>
 
         <section className="result-grid">

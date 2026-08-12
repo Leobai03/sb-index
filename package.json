@@ -1,7 +1,9 @@
 {
-  "name": "app",
-  "private": true,
-  "version": "0.0.0",
+  "name": "sb-index",
+  "private": false,
+  "version": "1.0.0",
+  "description": "知与行的偏离度，就是你的傻逼指数。一个开源的娱乐化人格测试。",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
