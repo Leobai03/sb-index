@@ -28,6 +28,7 @@ import { trackFunnelEvent } from './lib/analytics'
 import { buildPaidReport, mbtiTypes } from './lib/fullReport'
 import { createReportOrder, getReportOrder } from './lib/reportCheckout'
 import type { ReportOrder } from './lib/reportCheckout'
+import { createQuestionOrder } from './lib/questionOrder'
 import { calculateResult } from './lib/scoring'
 import { downloadShareCard, shareResult } from './lib/shareCard'
 import type { AnswerMap, PaidReport, QuizResult } from './types'
@@ -37,6 +38,21 @@ type Screen = 'home' | 'quiz' | 'result' | 'report'
 const ANSWERS_KEY = 'sb-index-answers-v1'
 const RESULT_KEY = 'sb-index-result-v1'
 const REPORT_ORDER_KEY = 'sb-index-report-order-v1'
+const QUESTION_ORDER_KEY = 'sb-index-question-order-v2'
+
+function createQuestionSeed() {
+  const values = new Uint32Array(1)
+  window.crypto.getRandomValues(values)
+  return values[0]
+}
+
+function readQuestionSeed() {
+  const stored = Number(localStorage.getItem(QUESTION_ORDER_KEY))
+  if (Number.isInteger(stored) && stored >= 0) return stored
+  const seed = createQuestionSeed()
+  localStorage.setItem(QUESTION_ORDER_KEY, String(seed))
+  return seed
+}
 
 function readOrderToken() {
   return new URLSearchParams(window.location.search).get('report_order') || localStorage.getItem(REPORT_ORDER_KEY) || ''
@@ -66,6 +82,7 @@ function App() {
   const [answers, setAnswers] = useState<AnswerMap>(readStoredAnswers)
   const [result, setResult] = useState<QuizResult | null>(readStoredResult)
   const [questionIndex, setQuestionIndex] = useState(0)
+  const [questionSeed, setQuestionSeed] = useState(readQuestionSeed)
   const [locked, setLocked] = useState(false)
   const [shareNotice, setShareNotice] = useState('')
   const [reportOrderToken, setReportOrderToken] = useState(readOrderToken)
@@ -75,7 +92,8 @@ function App() {
   const [mbti, setMbti] = useState<typeof mbtiTypes[number]>('INTJ')
 
   const answeredCount = Object.keys(answers).length
-  const currentQuestion = questions[questionIndex]
+  const displayQuestions = useMemo(() => createQuestionOrder(questions, questionSeed), [questionSeed])
+  const currentQuestion = displayQuestions[questionIndex]
   const selectedOption = currentQuestion ? answers[currentQuestion.id] : undefined
   const progress = ((questionIndex + 1) / questions.length) * 100
 
@@ -170,11 +188,14 @@ function App() {
   }
 
   function restart() {
+    const nextSeed = createQuestionSeed()
     setAnswers({})
     setResult(null)
     localStorage.removeItem(ANSWERS_KEY)
     localStorage.removeItem(RESULT_KEY)
     localStorage.removeItem(REPORT_ORDER_KEY)
+    localStorage.setItem(QUESTION_ORDER_KEY, String(nextSeed))
+    setQuestionSeed(nextSeed)
     setReportOrderToken('')
     setReportOrder(null)
     setPaidReport(null)
@@ -527,6 +548,7 @@ function App() {
           <p className="section-kicker">核心公式</p>
           <div className="formula"><span>傻逼指数</span><b>=</b><span>嘴上认同</span><b>−</b><span>实际行为</span></div>
           <p>不同位置的题目会偷偷配对。你怎么理解一件事，和过去 30 天实际上怎么做，差得越远，指数越高。</p>
+          <p>选项顺序每次重测都会换。固定全选 A、B 或 C 不会钻到 0 分；100 分代表多数知行配对几乎完全相反，属于极端档。</p>
         </div>
         <div className="theory-points">
           <article><span>01</span><h3>不测智商</h3><p>聪明和傻逼可以同时存在，而且经常合租。</p></article>

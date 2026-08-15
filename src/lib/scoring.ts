@@ -66,7 +66,10 @@ export function calculateResult(answers: AnswerMap): QuizResult {
     const weight = pairMeta.find((meta) => meta.id === detail.pairId)?.weight ?? 1
     return sum + detail.gap * weight
   }, 0)
-  const index = Math.round((weightedGap / (4 * totalWeight)) * 100)
+  const rawIndex = (weightedGap / (4 * totalWeight)) * 100
+  // 娱乐化结果需要把中高段差异拉开：完全一致仍是 0，原始偏离达到 80
+  // 左右即可进入 100 的极端档，但最终始终限制在 0—100。
+  const index = Math.min(100, Math.round(rawIndex * 1.25))
 
   const dimensionScores = Object.fromEntries(dimensions.map((dimension) => {
     const details = gapDetails.filter((detail) => detail.dimension === dimension)

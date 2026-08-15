@@ -1,5 +1,6 @@
 import questions from '../src/data/questions'
 import { personas } from '../src/data/personas'
+import { createQuestionOrder } from '../src/lib/questionOrder'
 import { calculateResult } from '../src/lib/scoring'
 import type { AnswerMap } from '../src/types'
 
@@ -30,8 +31,37 @@ const distribution = Object.fromEntries(
 const largestShare = Math.max(...Object.values(distribution))
 const smallestShare = Math.min(...Object.values(distribution))
 
-console.log(JSON.stringify({ sampleSize, averageIndex: Number((sum / sampleSize).toFixed(2)), min, max, distribution, bands }, null, 2))
+const fixedPositionScores: number[] = []
+for (let seed = 0; seed < 256; seed += 1) {
+  const orderedQuestions = createQuestionOrder(questions, seed)
+  for (let position = 0; position < 3; position += 1) {
+    const fixedAnswers: AnswerMap = {}
+    for (const question of orderedQuestions) fixedAnswers[question.id] = question.options[position].id
+    fixedPositionScores.push(calculateResult(fixedAnswers).index)
+  }
+}
+
+const extremeAnswers: AnswerMap = {}
+for (const question of questions) {
+  const targetValue = question.kind === 'behavior' ? 4 : 0
+  extremeAnswers[question.id] = (question.options.find((option) => option.value === targetValue) ?? question.options[0]).id
+}
+const extremeIndex = calculateResult(extremeAnswers).index
+const fixedPositionRange = {
+  min: Math.min(...fixedPositionScores),
+  max: Math.max(...fixedPositionScores),
+}
+
+console.log(JSON.stringify({ sampleSize, averageIndex: Number((sum / sampleSize).toFixed(2)), min, max, distribution, bands, fixedPositionRange, extremeIndex }, null, 2))
 
 if (largestShare > 18 || smallestShare < 4) {
   throw new Error(`人格分布失衡：最大 ${largestShare}%，最小 ${smallestShare}%`)
+}
+
+if (fixedPositionRange.min < 35) {
+  throw new Error(`固定全选同一位置仍可能过低：最低 ${fixedPositionRange.min}`)
+}
+
+if (extremeIndex !== 100) {
+  throw new Error(`极端知行偏离没有达到 100：实际 ${extremeIndex}`)
 }
