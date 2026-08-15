@@ -307,10 +307,16 @@ footer p:last-child { text-align: right; }
 .premium-button { padding-inline: 24px; }
 .premium-button:disabled { cursor: wait; opacity: .72; transform: none; }
 .premium-pay-link { text-decoration: none; }
-.payment-pending-card { width: min(440px, 100%); margin-top: 16px; padding: 15px 16px; border: 2px solid var(--ink); background: #fff4c9; }
-.payment-pending-card b { display: block; font-size: 13px; }
-.payment-pending-card p { margin: 7px 0 8px; color: #5f5b51; font-size: 11px; line-height: 1.65; font-weight: 700; }
-.payment-pending-card span { display: block; overflow-wrap: anywhere; color: #858075; font: 800 9px/1.5 Arial, sans-serif; }
+.payment-pending-card { width: min(440px, 100%); margin-top: 16px; padding: 16px; border: 2px solid var(--ink); background: #fff4c9; display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; }
+.payment-qr-block { padding: 10px; border: 2px solid var(--ink); background: #fff; text-align: center; }
+.payment-qr-block > span { display: block; margin-bottom: 7px; color: var(--ink); font: 900 9px/1.4 Arial, sans-serif; }
+.payment-qr-block img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.payment-qr-block > b { display: block; margin-top: 7px; font-size: 10px; }
+.payment-qr-loading { min-height: 142px; display: grid; place-items: center; padding: 12px; background: #f1efe7; color: #6f6b61; font-size: 10px; line-height: 1.5; font-weight: 750; }
+.payment-pending-copy > b { display: block; font-size: 13px; line-height: 1.45; }
+.payment-pending-copy > p { margin: 7px 0 8px; color: #5f5b51; font-size: 11px; line-height: 1.65; font-weight: 700; }
+.payment-pending-copy > span { display: block; overflow-wrap: anywhere; color: #858075; font: 800 9px/1.5 Arial, sans-serif; }
+.payment-pending-copy > small { display: block; margin-top: 7px; color: #858075; font-size: 9px; line-height: 1.5; font-weight: 750; }
 .premium-copy small { display: flex; align-items: center; gap: 6px; margin-top: 17px; color: #706c63; font-size: 10px; font-weight: 750; }
 .premium-features { padding: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .premium-features article { position: relative; min-height: 175px; border: 2px solid var(--ink); background: var(--white); padding: 23px; }
@@ -509,6 +515,8 @@ footer p:last-child { text-align: right; }
   .premium-copy h2 { font-size: 37px; }
   .premium-price { flex-wrap: wrap; }
   .premium-price span { width: 100%; }
+  .payment-pending-card { grid-template-columns: 1fr; }
+  .payment-qr-block { width: min(240px, 100%); margin: 0 auto; }
   .premium-features { grid-template-columns: 1fr; padding: 14px; }
   .premium-features article { min-height: 155px; }
   .result-grid { padding-bottom: 70px; }

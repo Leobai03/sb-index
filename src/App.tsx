@@ -17,6 +17,7 @@ import {
 import './App.css'
 import CreatorSection from './components/CreatorSection'
 import PaidReportView from './components/PaidReportView'
+import PaymentQr from './components/PaymentQr'
 import PolygonAvatar from './components/PolygonAvatar'
 import RadarChart from './components/RadarChart'
 import { creator } from './config/creator'
@@ -200,17 +201,8 @@ function App() {
     trackFunnelEvent('report_checkout_clicked', { price: monetization.reportPrice, persona: result.persona.code, index: result.index })
 
     if (reportOrder?.status === 'pending' && reportOrder.payUrl) {
-      window.open(reportOrder.payUrl, '_blank', 'noopener,noreferrer')
+      document.querySelector('.payment-pending-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
-    }
-
-    // 先在用户点击事件里打开窗口，避免异步下单完成后被浏览器拦截弹窗。
-    // 原结果页保持打开并持续查单，支付回调成功后会在这里自动显示报告。
-    const cashierWindow = window.open('', '_blank')
-    if (cashierWindow) {
-      cashierWindow.opener = null
-      cashierWindow.document.title = '正在打开支付宝'
-      cashierWindow.document.body.textContent = '正在生成支付宝订单，请稍候…'
     }
 
     setCheckoutState('creating')
@@ -222,14 +214,8 @@ function App() {
       setReportOrder(order)
       setCheckoutState('pending')
       trackFunnelEvent('report_order_created', { orderNo: order.orderNo, persona: result.persona.code, amount: order.amount })
-      if (cashierWindow && !cashierWindow.closed) {
-        cashierWindow.location.replace(order.payUrl)
-      } else {
-        setShareNotice('订单已生成，请点击“打开支付宝付款”')
-        window.setTimeout(() => setShareNotice(''), 4200)
-      }
+      window.setTimeout(() => document.querySelector('.payment-pending-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120)
     } catch (error) {
-      cashierWindow?.close()
       setCheckoutState('error')
       setShareNotice(error instanceof Error ? error.message : '下单失败，稍后再试')
       window.setTimeout(() => setShareNotice(''), 4200)
@@ -371,14 +357,18 @@ function App() {
             ) : (
               <button type="button" className="primary-button premium-button" onClick={handleCheckout} disabled={checkoutState === 'creating'}>
                 <WalletCards size={20} />
-                {checkoutState === 'creating' ? '正在生成收银台…' : `支付 ${monetization.reportPrice}，解锁完整报告`}
+                {checkoutState === 'creating' ? '正在生成收款码…' : `生成 ${monetization.reportPrice} 支付码`}
               </button>
             )}
             {checkoutState === 'pending' && reportOrder ? (
               <div className="payment-pending-card" role="status">
-                <b>订单已生成，付款后才会生成报告</b>
-                <p>请在打开的支付宝页面完成付款。保留这个结果页，支付成功后通常 3—10 秒自动显示完整报告。</p>
-                <span>订单号：{reportOrder.orderNo}</span>
+                <PaymentQr payUrl={reportOrder.payUrl} amount={`¥${reportOrder.amount}`} />
+                <div className="payment-pending-copy">
+                  <b>扫码付 ¥9.90，付款后自动生成报告</b>
+                  <p>电脑端用支付宝扫码；手机端点击上方“打开支付宝付款”。保留这个结果页，支付成功后通常 3—10 秒自动显示完整报告。</p>
+                  <span>订单号：{reportOrder.orderNo}</span>
+                  <small>支付码仅用于本订单，35 分钟内有效。</small>
+                </div>
               </div>
             ) : null}
             <small><LockKeyhole size={13} />先付款，后交付 · 一次购买 · 不自动续费。</small>

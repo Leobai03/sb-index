@@ -27,7 +27,7 @@ const gapCount = await page.locator('.gap-item').count()
 const rankCount = await page.locator('.rank-row').count()
 const premiumVisible = await page.locator('.premium-offer').isVisible()
 const creatorVisible = await page.locator('.creator-section').isVisible()
-const paymentCopyVisible = await page.getByRole('button', { name: '支付 ¥9.9，解锁完整报告' }).isVisible()
+const paymentCopyVisible = await page.getByRole('button', { name: '生成 ¥9.9 支付码' }).isVisible()
 const douyinIdVisible = await page.getByText('抖音号：29383494505').isVisible()
 if (gapCount !== 3 || rankCount !== 16 || !premiumVisible || !creatorVisible || !paymentCopyVisible || !douyinIdVisible) {
   throw new Error(`结果结构异常：gap=${gapCount}, rank=${rankCount}, premium=${premiumVisible}, creator=${creatorVisible}, paymentCopy=${paymentCopyVisible}, douyin=${douyinIdVisible}`)
