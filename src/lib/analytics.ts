@@ -4,6 +4,7 @@ type FunnelEventName =
   | 'result_shared'
   | 'report_checkout_clicked'
   | 'report_order_created'
+  | 'report_payment_opened'
   | 'report_unlocked'
   | 'business_clicked'
   | 'creator_clicked'

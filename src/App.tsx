@@ -200,8 +200,17 @@ function App() {
     trackFunnelEvent('report_checkout_clicked', { price: monetization.reportPrice, persona: result.persona.code, index: result.index })
 
     if (reportOrder?.status === 'pending' && reportOrder.payUrl) {
-      window.location.assign(reportOrder.payUrl)
+      window.open(reportOrder.payUrl, '_blank', 'noopener,noreferrer')
       return
+    }
+
+    // 先在用户点击事件里打开窗口，避免异步下单完成后被浏览器拦截弹窗。
+    // 原结果页保持打开并持续查单，支付回调成功后会在这里自动显示报告。
+    const cashierWindow = window.open('', '_blank')
+    if (cashierWindow) {
+      cashierWindow.opener = null
+      cashierWindow.document.title = '正在打开支付宝'
+      cashierWindow.document.body.textContent = '正在生成支付宝订单，请稍候…'
     }
 
     setCheckoutState('creating')
@@ -213,8 +222,14 @@ function App() {
       setReportOrder(order)
       setCheckoutState('pending')
       trackFunnelEvent('report_order_created', { orderNo: order.orderNo, persona: result.persona.code, amount: order.amount })
-      window.location.assign(order.payUrl)
+      if (cashierWindow && !cashierWindow.closed) {
+        cashierWindow.location.replace(order.payUrl)
+      } else {
+        setShareNotice('订单已生成，请点击“打开支付宝付款”')
+        window.setTimeout(() => setShareNotice(''), 4200)
+      }
     } catch (error) {
+      cashierWindow?.close()
       setCheckoutState('error')
       setShareNotice(error instanceof Error ? error.message : '下单失败，稍后再试')
       window.setTimeout(() => setShareNotice(''), 4200)
@@ -343,11 +358,30 @@ function App() {
             <h2>已经被骂了，<br />不如把账算完。</h2>
             <p>免费结果负责告诉你是什么病，完整知行对账书负责告诉你：具体在哪打脸，以及明天先改哪一步。</p>
             <div className="premium-price"><strong>{monetization.reportPrice}</strong><del>{monetization.originalPrice}</del><span>一次购买 · 不自动续费</span></div>
-            <button type="button" className="primary-button premium-button" onClick={handleCheckout} disabled={checkoutState === 'creating'}>
-              <WalletCards size={20} />
-              {checkoutState === 'creating' ? '正在生成收银台…' : checkoutState === 'pending' ? '继续支付并解锁' : `${monetization.reportPrice} 解锁完整报告`}
-            </button>
-            <small><LockKeyhole size={13} />支付成功后自动交付 · 一次购买 · 不自动续费。</small>
+            {checkoutState === 'pending' && reportOrder?.payUrl ? (
+              <a
+                className="primary-button premium-button premium-pay-link"
+                href={reportOrder.payUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackFunnelEvent('report_payment_opened', { orderNo: reportOrder.orderNo })}
+              >
+                <WalletCards size={20} />打开支付宝付款
+              </a>
+            ) : (
+              <button type="button" className="primary-button premium-button" onClick={handleCheckout} disabled={checkoutState === 'creating'}>
+                <WalletCards size={20} />
+                {checkoutState === 'creating' ? '正在生成收银台…' : `支付 ${monetization.reportPrice}，解锁完整报告`}
+              </button>
+            )}
+            {checkoutState === 'pending' && reportOrder ? (
+              <div className="payment-pending-card" role="status">
+                <b>订单已生成，付款后才会生成报告</b>
+                <p>请在打开的支付宝页面完成付款。保留这个结果页，支付成功后通常 3—10 秒自动显示完整报告。</p>
+                <span>订单号：{reportOrder.orderNo}</span>
+              </div>
+            ) : null}
+            <small><LockKeyhole size={13} />先付款，后交付 · 一次购买 · 不自动续费。</small>
           </div>
           <div className="premium-features">
             <article><span>01</span><FileText size={24} /><h3>全部知行对账</h3><p>不只展示前三处，完整拆解每组认知与行为的偏离。</p></article>

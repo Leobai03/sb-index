@@ -306,6 +306,11 @@ footer p:last-child { text-align: right; }
 .premium-price span { color: #68655d; font-size: 11px; font-weight: 800; }
 .premium-button { padding-inline: 24px; }
 .premium-button:disabled { cursor: wait; opacity: .72; transform: none; }
+.premium-pay-link { text-decoration: none; }
+.payment-pending-card { width: min(440px, 100%); margin-top: 16px; padding: 15px 16px; border: 2px solid var(--ink); background: #fff4c9; }
+.payment-pending-card b { display: block; font-size: 13px; }
+.payment-pending-card p { margin: 7px 0 8px; color: #5f5b51; font-size: 11px; line-height: 1.65; font-weight: 700; }
+.payment-pending-card span { display: block; overflow-wrap: anywhere; color: #858075; font: 800 9px/1.5 Arial, sans-serif; }
 .premium-copy small { display: flex; align-items: center; gap: 6px; margin-top: 17px; color: #706c63; font-size: 10px; font-weight: 750; }
 .premium-features { padding: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .premium-features article { position: relative; min-height: 175px; border: 2px solid var(--ink); background: var(--white); padding: 23px; }
