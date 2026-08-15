@@ -12,7 +12,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test:distribution": "tsx scripts/validate-distribution.ts",
-    "test:e2e": "node scripts/e2e.mjs"
+    "test:e2e": "node scripts/e2e.mjs",
+    "test:server": "node --test server/report-server.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",

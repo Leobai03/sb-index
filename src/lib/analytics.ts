@@ -3,7 +3,10 @@ type FunnelEventName =
   | 'quiz_completed'
   | 'result_shared'
   | 'report_checkout_clicked'
+  | 'report_order_created'
+  | 'report_unlocked'
   | 'business_clicked'
+  | 'creator_clicked'
 
 interface FunnelEvent {
   name: FunnelEventName

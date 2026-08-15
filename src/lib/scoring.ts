@@ -115,6 +115,7 @@ export function calculateResult(answers: AnswerMap): QuizResult {
     persona: personaMap[topPersonaCode],
     personaScores: normalizedPersonaScores,
     dimensions: dimensionScores,
+    allGaps: [...gapDetails].sort((a, b) => b.gap - a.gap),
     topGaps: [...gapDetails].sort((a, b) => b.gap - a.gap).slice(0, 3),
     answeredAt: Date.now(),
   }

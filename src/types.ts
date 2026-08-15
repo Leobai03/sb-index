@@ -105,6 +105,26 @@ export interface QuizResult {
   persona: Persona
   personaScores: Record<PersonaCode, number>
   dimensions: Record<GapDimension, number>
+  allGaps: GapDetail[]
   topGaps: GapDetail[]
   answeredAt: number
+}
+
+export interface ActionPhase {
+  period: string
+  title: string
+  action: string
+  proof: string
+}
+
+export interface PaidReport {
+  version: 1
+  title: string
+  personaCode: PersonaCode
+  personaName: string
+  index: number
+  generatedAt: number
+  summary: string
+  allGaps: GapDetail[]
+  plan: ActionPhase[]
 }

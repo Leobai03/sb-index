@@ -15,20 +15,31 @@ import {
   WalletCards,
 } from 'lucide-react'
 import './App.css'
+import CreatorSection from './components/CreatorSection'
+import PaidReportView from './components/PaidReportView'
 import PolygonAvatar from './components/PolygonAvatar'
 import RadarChart from './components/RadarChart'
+import { creator } from './config/creator'
 import { monetization } from './config/monetization'
 import { personas } from './data/personas'
 import questions from './data/questions'
 import { trackFunnelEvent } from './lib/analytics'
+import { buildPaidReport, mbtiTypes } from './lib/fullReport'
+import { createReportOrder, getReportOrder } from './lib/reportCheckout'
+import type { ReportOrder } from './lib/reportCheckout'
 import { calculateResult } from './lib/scoring'
 import { downloadShareCard, shareResult } from './lib/shareCard'
-import type { AnswerMap, QuizResult } from './types'
+import type { AnswerMap, PaidReport, QuizResult } from './types'
 
-type Screen = 'home' | 'quiz' | 'result'
+type Screen = 'home' | 'quiz' | 'result' | 'report'
 
 const ANSWERS_KEY = 'sb-index-answers-v1'
 const RESULT_KEY = 'sb-index-result-v1'
+const REPORT_ORDER_KEY = 'sb-index-report-order-v1'
+
+function readOrderToken() {
+  return new URLSearchParams(window.location.search).get('report_order') || localStorage.getItem(REPORT_ORDER_KEY) || ''
+}
 
 function readStoredAnswers(): AnswerMap {
   try {
@@ -47,12 +58,20 @@ function readStoredResult(): QuizResult | null {
 }
 
 function App() {
-  const [screen, setScreen] = useState<Screen>('home')
+  const [screen, setScreen] = useState<Screen>(() => {
+    if (!new URLSearchParams(window.location.search).has('report_order')) return 'home'
+    return readStoredResult() ? 'result' : 'report'
+  })
   const [answers, setAnswers] = useState<AnswerMap>(readStoredAnswers)
   const [result, setResult] = useState<QuizResult | null>(readStoredResult)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [locked, setLocked] = useState(false)
   const [shareNotice, setShareNotice] = useState('')
+  const [reportOrderToken, setReportOrderToken] = useState(readOrderToken)
+  const [reportOrder, setReportOrder] = useState<ReportOrder | null>(null)
+  const [paidReport, setPaidReport] = useState<PaidReport | null>(null)
+  const [checkoutState, setCheckoutState] = useState<'idle' | 'creating' | 'pending' | 'paid' | 'error'>(() => readOrderToken() ? 'pending' : 'idle')
+  const [mbti, setMbti] = useState<typeof mbtiTypes[number]>('INTJ')
 
   const answeredCount = Object.keys(answers).length
   const currentQuestion = questions[questionIndex]
@@ -73,6 +92,46 @@ function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [screen])
+
+  useEffect(() => {
+    if (!reportOrderToken) return
+    let active = true
+    let interval = 0
+
+    async function refresh() {
+      try {
+        const order = await getReportOrder(reportOrderToken)
+        if (!active) return
+        setReportOrder(order)
+        if (order.status === 'paid' && order.report) {
+          setPaidReport(order.report)
+          setCheckoutState('paid')
+          const unlockEventKey = `sb-index-report-unlocked-${order.token}`
+          if (!localStorage.getItem(unlockEventKey)) {
+            trackFunnelEvent('report_unlocked', { orderNo: order.orderNo, persona: order.report.personaCode })
+            localStorage.setItem(unlockEventKey, '1')
+          }
+          window.clearInterval(interval)
+          window.setTimeout(() => document.querySelector('#full-report')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 180)
+        } else if (order.status === 'pending') {
+          setCheckoutState('pending')
+        } else {
+          setCheckoutState('error')
+        }
+      } catch (error) {
+        if (!active) return
+        setCheckoutState('error')
+        setShareNotice(error instanceof Error ? error.message : '查单失败')
+      }
+    }
+
+    void refresh()
+    interval = window.setInterval(refresh, 3500)
+    return () => {
+      active = false
+      window.clearInterval(interval)
+    }
+  }, [reportOrderToken])
 
   function startQuiz() {
     const firstUnanswered = questions.findIndex((question) => !answers[question.id])
@@ -114,6 +173,11 @@ function App() {
     setResult(null)
     localStorage.removeItem(ANSWERS_KEY)
     localStorage.removeItem(RESULT_KEY)
+    localStorage.removeItem(REPORT_ORDER_KEY)
+    setReportOrderToken('')
+    setReportOrder(null)
+    setPaidReport(null)
+    setCheckoutState('idle')
     setQuestionIndex(0)
     setScreen('quiz')
   }
@@ -131,29 +195,61 @@ function App() {
     window.setTimeout(() => setShareNotice(''), 2600)
   }
 
-  function handleCheckout() {
+  async function handleCheckout() {
     if (!result) return
     trackFunnelEvent('report_checkout_clicked', { price: monetization.reportPrice, persona: result.persona.code, index: result.index })
 
-    if (monetization.checkoutEnabled) {
-      const checkout = new URL(monetization.checkoutUrl)
-      checkout.searchParams.set('reference', `${result.persona.code}-${result.index}`)
-      window.open(checkout.toString(), '_blank', 'noopener,noreferrer')
+    if (reportOrder?.status === 'pending' && reportOrder.payUrl) {
+      window.location.assign(reportOrder.payUrl)
       return
     }
 
-    setShareNotice('付费入口代码已就位，配置 VITE_CHECKOUT_URL 后即可收款')
-    window.setTimeout(() => setShareNotice(''), 3200)
+    setCheckoutState('creating')
+    try {
+      const completeResult = result.allGaps?.length === 9 ? result : calculateResult(answers)
+      const order = await createReportOrder(buildPaidReport(completeResult))
+      localStorage.setItem(REPORT_ORDER_KEY, order.token)
+      setReportOrderToken(order.token)
+      setReportOrder(order)
+      setCheckoutState('pending')
+      trackFunnelEvent('report_order_created', { orderNo: order.orderNo, persona: result.persona.code, amount: order.amount })
+      window.location.assign(order.payUrl)
+    } catch (error) {
+      setCheckoutState('error')
+      setShareNotice(error instanceof Error ? error.message : '下单失败，稍后再试')
+      window.setTimeout(() => setShareNotice(''), 4200)
+    }
   }
 
   function handleBusiness() {
     trackFunnelEvent('business_clicked')
-    if (monetization.businessEnabled) {
-      window.open(monetization.businessUrl, '_blank', 'noopener,noreferrer')
-      return
-    }
-    setShareNotice('商务入口待配置：VITE_BUSINESS_URL')
-    window.setTimeout(() => setShareNotice(''), 3200)
+    window.open(creator.businessUrl, '_blank', 'noopener,noreferrer')
+  }
+
+  if (screen === 'report') {
+    return (
+      <main className="result-page standalone-report-page">
+        <header className="site-header compact">
+          <button className="brand-button" type="button" onClick={() => setScreen('home')}>
+            <span className="brand-mark">SB</span><span>知行偏离测试</span>
+          </button>
+          <a className="plain-button" href={`${import.meta.env.BASE_URL}`}>回到测试</a>
+        </header>
+        {paidReport ? (
+          <>
+            <PaidReportView report={paidReport} mbti={mbti} onMbtiChange={setMbti} />
+            <CreatorSection />
+          </>
+        ) : (
+          <section className="report-loading-card">
+            <span className="brand-mark">SB</span>
+            <h1>{checkoutState === 'error' ? '还没查到这份报告' : '正在核对支付结果'}</h1>
+            <p>支付回调通常需要几秒，这个页面会自动刷新。</p>
+            {reportOrder?.status === 'pending' && reportOrder.payUrl && <a className="primary-button" href={reportOrder.payUrl}>继续完成支付 <ArrowRight size={18} /></a>}
+          </section>
+        )}
+      </main>
+    )
   }
 
   if (screen === 'quiz') {
@@ -239,16 +335,19 @@ function App() {
           {shareNotice && <div className="toast">{shareNotice}</div>}
         </section>
 
-        <section className="premium-offer">
+        {paidReport ? (
+          <PaidReportView report={paidReport} mbti={mbti} onMbtiChange={setMbti} />
+        ) : <section className="premium-offer">
           <div className="premium-copy">
             <p className="card-label">测试永久免费 · 深度报告首发</p>
             <h2>已经被骂了，<br />不如把账算完。</h2>
             <p>免费结果负责告诉你是什么病，完整知行对账书负责告诉你：具体在哪打脸，以及明天先改哪一步。</p>
             <div className="premium-price"><strong>{monetization.reportPrice}</strong><del>{monetization.originalPrice}</del><span>一次购买 · 不自动续费</span></div>
-            <button type="button" className="primary-button premium-button" onClick={handleCheckout}>
-              <WalletCards size={20} />{monetization.reportPrice} 解锁完整报告
+            <button type="button" className="primary-button premium-button" onClick={handleCheckout} disabled={checkoutState === 'creating'}>
+              <WalletCards size={20} />
+              {checkoutState === 'creating' ? '正在生成收银台…' : checkoutState === 'pending' ? '继续支付并解锁' : `${monetization.reportPrice} 解锁完整报告`}
             </button>
-            <small><LockKeyhole size={13} />基础人格、指数和分享海报永久免费。</small>
+            <small><LockKeyhole size={13} />支付成功后自动交付 · 一次购买 · 不自动续费。</small>
           </div>
           <div className="premium-features">
             <article><span>01</span><FileText size={24} /><h3>全部知行对账</h3><p>不只展示前三处，完整拆解每组认知与行为的偏离。</p></article>
@@ -256,7 +355,7 @@ function App() {
             <article><span>03</span><Users size={24} /><h3>MBTI × SB 组合</h3><p>同一个 MBTI，为什么会活成完全不同的互联网人格。</p></article>
             <article className="business-card"><span>B2B</span><h3>品牌联名测试</h3><p>给品牌、活动和社群定制题库、人格与分享海报。</p><button type="button" onClick={handleBusiness}>商务合作 <ArrowRight size={15} /></button></article>
           </div>
-        </section>
+        </section>}
 
         <section className="result-grid">
           <article className="result-card roast-card">
@@ -317,6 +416,8 @@ function App() {
             </div>
           </article>
         </section>
+
+        <CreatorSection />
 
         <section className="result-cta">
           <p>不服？人的第一反应通常是再测一次。</p>

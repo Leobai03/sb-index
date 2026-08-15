@@ -20,8 +20,10 @@ for (let index = 0; index < 27; index += 1) {
 await page.waitForSelector('.result-hero')
 const gapCount = await page.locator('.gap-item').count()
 const rankCount = await page.locator('.rank-row').count()
-if (gapCount !== 3 || rankCount !== 16) {
-  throw new Error(`结果结构异常：gap=${gapCount}, rank=${rankCount}`)
+const premiumVisible = await page.locator('.premium-offer').isVisible()
+const creatorVisible = await page.locator('.creator-section').isVisible()
+if (gapCount !== 3 || rankCount !== 16 || !premiumVisible || !creatorVisible) {
+  throw new Error(`结果结构异常：gap=${gapCount}, rank=${rankCount}, premium=${premiumVisible}, creator=${creatorVisible}`)
 }
 
 const downloadPromise = page.waitForEvent('download')
@@ -30,5 +32,5 @@ const download = await downloadPromise
 if (!download.suggestedFilename().endsWith('.png')) throw new Error('分享海报没有生成 PNG')
 
 if (errors.length) throw new Error(errors.join('\n'))
-console.log(JSON.stringify({ status: 'passed', gapCount, rankCount, shareCard: download.suggestedFilename() }, null, 2))
+console.log(JSON.stringify({ status: 'passed', gapCount, rankCount, premiumVisible, creatorVisible, shareCard: download.suggestedFilename() }, null, 2))
 await browser.close()

@@ -1,0 +1,22 @@
+[Unit]
+Description=SB Index paid report fulfillment service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sbindex
+Group=sbindex
+EnvironmentFile=/etc/sb-index-report.env
+ExecStart=/usr/bin/node /opt/sb-index-report/report-server.mjs
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/sb-index-report
+WorkingDirectory=/opt/sb-index-report
+
+[Install]
+WantedBy=multi-user.target
