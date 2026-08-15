@@ -157,7 +157,7 @@ function App() {
         setQuestionIndex((index) => index + 1)
       }
       setLocked(false)
-    }, 260)
+    }, 160)
   }
 
   function goBack() {
@@ -265,7 +265,7 @@ function App() {
 
         <div className="progress-meta">
           <span>{String(questionIndex + 1).padStart(2, '0')} / {questions.length}</span>
-          <span>别想太久，身体比嘴诚实</span>
+          <span>凭第一反应，别做阅读理解</span>
         </div>
         <div className="progress-track"><div className="progress-fill" style={{ width: `${progress}%` }} /></div>
 
@@ -290,7 +290,7 @@ function App() {
               )
             })}
           </div>
-          <p className="question-footnote">没有标准答案，只有你愿不愿意承认的答案。</p>
+          <p className="question-footnote">第一反应就够了，别替自己写论文。</p>
         </section>
       </main>
     )
@@ -453,8 +453,8 @@ function App() {
             <a className="text-link" href="#types">先看看都有谁 <ArrowDown size={17} /></a>
           </div>
           <div className="hero-meta">
-            <span><b>27</b> 道荒诞选择题</span>
-            <span><b>3</b> 分钟完成</span>
+            <span><b>{questions.length}</b> 道秒选题</span>
+            <span><b>90</b> 秒完成</span>
             <span><b>全</b> 是选择题</span>
           </div>
         </div>
@@ -513,10 +513,10 @@ function App() {
 
       <section className="bottom-cta">
         <div>
-          <p>27 道题以后</p>
+          <p>{questions.length} 道秒选题以后</p>
           <h2>看看你的嘴，<br />和你的身体熟不熟。</h2>
         </div>
-        <button type="button" className="primary-button inverse" onClick={startQuiz}><Timer size={21} />开始 3 分钟对账</button>
+        <button type="button" className="primary-button inverse" onClick={startQuiz}><Timer size={21} />开始 90 秒对账</button>
       </section>
 
       <footer>

@@ -12,9 +12,14 @@ page.on('pageerror', (error) => errors.push(error.message))
 await page.goto(baseUrl, { waitUntil: 'networkidle' })
 await page.getByRole('button', { name: /开始对账|继续对账/ }).click()
 
-for (let index = 0; index < 27; index += 1) {
-  await page.locator('.option-card').nth(index % 3).click()
-  await page.waitForTimeout(300)
+let answered = 0
+const progressText = await page.locator('.progress-meta span').first().textContent()
+const questionCount = Number(progressText?.split('/')[1]?.trim())
+if (!Number.isInteger(questionCount) || questionCount <= 0) throw new Error(`题目数量异常：${progressText}`)
+while (answered < questionCount) {
+  await page.locator('.option-card').nth(answered % 3).click()
+  await page.waitForTimeout(200)
+  answered += 1
 }
 
 await page.waitForSelector('.result-hero')
@@ -32,5 +37,5 @@ const download = await downloadPromise
 if (!download.suggestedFilename().endsWith('.png')) throw new Error('分享海报没有生成 PNG')
 
 if (errors.length) throw new Error(errors.join('\n'))
-console.log(JSON.stringify({ status: 'passed', gapCount, rankCount, premiumVisible, creatorVisible, shareCard: download.suggestedFilename() }, null, 2))
+console.log(JSON.stringify({ status: 'passed', answered, gapCount, rankCount, premiumVisible, creatorVisible, shareCard: download.suggestedFilename() }, null, 2))
 await browser.close()
