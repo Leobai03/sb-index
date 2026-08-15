@@ -230,7 +230,7 @@ export function createReportServer(configOverrides = {}) {
       if (request.method === 'GET' && orderMatch) {
         const order = store.findByToken(orderMatch[1])
         if (!order) return json(response, 404, { error: '订单不存在' })
-        if (order.status === 'pending' && Date.now() - (order.lastQueriedAt || 0) > 3_000) {
+        if (order.status === 'pending' && Date.now() - (order.lastQueriedAt || 0) > 1_500) {
           order.lastQueriedAt = Date.now()
           try {
             if (await queryPayment(order, config)) {

@@ -127,7 +127,7 @@ function App() {
     }
 
     void refresh()
-    interval = window.setInterval(refresh, 3500)
+    interval = window.setInterval(refresh, 1000)
     return () => {
       active = false
       window.clearInterval(interval)
@@ -365,7 +365,7 @@ function App() {
                 <PaymentQr payUrl={reportOrder.payUrl} amount={`¥${reportOrder.amount}`} />
                 <div className="payment-pending-copy">
                   <b>扫码付 ¥9.90，付款后自动生成报告</b>
-                  <p>电脑端用支付宝扫码；手机端点击上方“打开支付宝付款”。保留这个结果页，支付成功后通常 3—10 秒自动显示完整报告。</p>
+                  <p>电脑端用支付宝扫码；手机端点击上方“打开支付宝付款”。保留这个结果页，支付成功后通常 1—3 秒自动显示完整报告。</p>
                   <span>订单号：{reportOrder.orderNo}</span>
                   <small>支付码仅用于本订单，35 分钟内有效。</small>
                 </div>
