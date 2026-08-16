@@ -1,0 +1,28 @@
+<view class="quiz-shell">
+  <view class="quiz-top">
+    <view class="back" bindtap="goBack">←</view>
+    <view class="counter">{{current + 1}} / {{total}}</view>
+    <view class="truth">选真的</view>
+  </view>
+  <view class="progress-track"><view class="progress-value" style="width: {{progress}}%;"></view></view>
+
+  <view tt:if="{{question}}" class="question-card">
+    <view class="eyebrow">{{question.eyebrow}}</view>
+    <view class="question-title">{{question.title}}</view>
+    <view class="options">
+      <view
+        tt:for="{{options}}"
+        tt:key="id"
+        class="option {{selectedId === item.id ? 'option--selected' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="chooseOption"
+      >
+        <view class="option-label">{{item.label}}</view>
+        <view class="option-text">{{item.text}}</view>
+        <view class="option-arrow">↗</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="quiz-note">别揣摩算法。你最近怎么干，就怎么选。</view>
+</view>

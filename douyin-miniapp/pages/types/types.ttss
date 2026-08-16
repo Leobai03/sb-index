@@ -1,0 +1,13 @@
+.types-page { padding-top: 30rpx; }
+.types-title { margin-top: 16rpx; font-size: 58rpx; line-height: 1.05; font-weight: 1000; letter-spacing: -3rpx; }
+.types-title text { display: block; }
+.types-note { margin-top: 18rpx; color: #69675f; }
+.persona-grid { display: flex; flex-wrap: wrap; gap: 18rpx; margin: 36rpx 0; }
+.persona-card { position: relative; width: calc(50% - 9rpx); overflow: hidden; padding: 18rpx 14rpx 22rpx; border: 3rpx solid #171713; box-sizing: border-box; }
+.persona-card--active { width: 100%; }
+.card-code { position: absolute; top: 12rpx; left: 14rpx; z-index: 3; font-size: 20rpx; font-weight: 1000; }
+.card-name { margin-top: -8rpx; font-size: 30rpx; font-weight: 1000; text-align: center; }
+.card-tagline { min-height: 70rpx; margin-top: 8rpx; color: #55534e; font-size: 20rpx; line-height: 1.45; text-align: center; }
+.card-detail { margin: 18rpx 8rpx 0; padding-top: 18rpx; border-top: 3rpx solid #171713; line-height: 1.65; }
+.card-detail view { font-weight: 800; }
+.card-detail text { display: block; margin-top: 12rpx; color: #55534e; }

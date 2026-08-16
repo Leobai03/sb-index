@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "知行偏离测试",
+  "usingComponents": {
+    "persona-avatar": "/components/persona-avatar/persona-avatar"
+  }
+}

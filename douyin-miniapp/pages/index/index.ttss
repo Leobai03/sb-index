@@ -1,0 +1,123 @@
+.home { padding-top: 24rpx; }
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.brand {
+  font-size: 72rpx;
+  line-height: .9;
+  font-weight: 1000;
+  letter-spacing: -5rpx;
+}
+
+.brand-note {
+  margin-top: 10rpx;
+  font-size: 21rpx;
+  font-weight: 800;
+  letter-spacing: 5rpx;
+}
+
+.issue {
+  border-bottom: 4rpx solid #171713;
+  padding-bottom: 6rpx;
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
+.hero {
+  overflow: hidden;
+  padding: 34rpx 30rpx 0;
+  background: #fff3bd;
+}
+
+.hero-title {
+  margin-top: 18rpx;
+  font-size: 54rpx;
+  line-height: 1.05;
+  font-weight: 1000;
+  letter-spacing: -3rpx;
+}
+
+.hero-title text { display: block; }
+
+.hero-subtitle {
+  margin-top: 22rpx;
+  font-size: 27rpx;
+  font-weight: 700;
+}
+
+.avatar-stage {
+  position: relative;
+  height: 320rpx;
+  margin-top: 8rpx;
+  overflow: hidden;
+}
+
+.stamp {
+  position: absolute;
+  z-index: 4;
+  right: 20rpx;
+  top: 62rpx;
+  border: 5rpx solid #e8462d;
+  color: #e8462d;
+  padding: 10rpx 12rpx;
+  font-weight: 1000;
+  transform: rotate(11deg);
+}
+
+.start { margin-top: 34rpx; }
+
+.quick-facts {
+  display: flex;
+  margin-top: 30rpx;
+  border-top: 3rpx solid #171713;
+  border-bottom: 3rpx solid #171713;
+}
+
+.quick-facts view {
+  flex: 1;
+  min-height: 104rpx;
+  padding: 18rpx 10rpx;
+  box-sizing: border-box;
+  border-right: 3rpx solid #171713;
+  font-size: 21rpx;
+  font-weight: 700;
+}
+
+.quick-facts view:last-child { border-right: 0; }
+.quick-facts text { display: block; color: #4da625; font-weight: 1000; }
+
+.last-result {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 30rpx;
+  padding: 22rpx;
+  border: 3rpx solid #171713;
+  background: #fffdf6;
+  font-weight: 800;
+}
+
+.last-result view { color: #69675f; font-size: 21rpx; }
+.last-result > text { flex: 1; }
+.last-result .last-link { flex: 0 0 auto; font-size: 22rpx; }
+
+.manifesto {
+  display: flex;
+  gap: 22rpx;
+  margin-top: 44rpx;
+  padding: 30rpx 0;
+}
+
+.manifesto-number {
+  color: #4da625;
+  font-size: 42rpx;
+  font-weight: 1000;
+}
+
+.manifesto-title { font-size: 29rpx; font-weight: 1000; }
+.manifesto-body { margin-top: 10rpx; color: #69675f; line-height: 1.65; }

@@ -1,0 +1,15 @@
+.about-page { padding-top: 30rpx; }
+.about-title { margin-top: 18rpx; font-size: 56rpx; line-height: 1.08; font-weight: 1000; letter-spacing: -3rpx; }
+.about-title text { display: block; }
+.formula { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16rpx; margin-top: 38rpx; padding: 40rpx 20rpx 28rpx; box-shadow: none; background: #fff3bd; }
+.formula > view { width: 92rpx; height: 92rpx; display: flex; align-items: center; justify-content: center; border: 4rpx solid #171713; background: #fffdf6; font-size: 50rpx; font-weight: 1000; }
+.formula > .acid { background: #8ee44f; }
+.formula > text { font-size: 40rpx; font-weight: 1000; }
+.formula .formula-note { width: 100%; height: auto; margin-top: 16rpx; border: 0; background: transparent; font-size: 22rpx; }
+.about-block { display: flex; gap: 20rpx; padding: 34rpx 0; border-bottom: 3rpx solid #171713; }
+.block-no { color: #4da625; font-size: 24rpx; font-weight: 1000; }
+.about-block > view:last-child { flex: 1; }
+.about-block text { display: block; margin-bottom: 10rpx; font-size: 30rpx; font-weight: 1000; }
+.about-block view view { color: #55534e; line-height: 1.7; }
+.primary-button { margin-top: 40rpx; }
+.copyright { margin-top: 34rpx; color: #69675f; font-size: 20rpx; text-align: center; }

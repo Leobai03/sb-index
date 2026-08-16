@@ -1,0 +1,29 @@
+<view class="page-shell about-page">
+  <view class="eyebrow">ABOUT THIS THING</view>
+  <view class="about-title">这不是心理诊断。<text>这是一次对账。</text></view>
+
+  <view class="formula panel">
+    <view>知</view><text>−</text><view>行</view><text>＝</text><view class="acid">偏</view>
+    <view class="formula-note">偏离越大，指数越高</view>
+  </view>
+
+  <view class="about-block">
+    <view class="block-no">01</view>
+    <view><text>测什么？</text><view>把“你觉得应该怎么做”和“你最近实际怎么做”配成一组，计算两者差距。</view></view>
+  </view>
+  <view class="about-block">
+    <view class="block-no">02</view>
+    <view><text>怎么算？</text><view>配对题按不同维度加权，选项顺序每轮会换，避免一路点 A、B 或 C 就猜中算法。</view></view>
+  </view>
+  <view class="about-block">
+    <view class="block-no">03</view>
+    <view><text>会收集什么？</text><view>不要求登录，不收集姓名、手机号或通讯录。答案和结果仅保存在你的小程序本地缓存中。</view></view>
+  </view>
+  <view class="about-block">
+    <view class="block-no">04</view>
+    <view><text>结果能当真吗？</text><view>只供娱乐和自我反思，不用于医疗、招聘、投资或其他重大决策。</view></view>
+  </view>
+
+  <button class="primary-button" bindtap="startQuiz">别讲了，开测</button>
+  <view class="copyright">知行偏离测试 · 开源娱乐项目</view>
+</view>

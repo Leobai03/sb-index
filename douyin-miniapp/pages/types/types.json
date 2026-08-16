@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "人格图鉴",
+  "usingComponents": {
+    "persona-avatar": "/components/persona-avatar/persona-avatar"
+  }
+}

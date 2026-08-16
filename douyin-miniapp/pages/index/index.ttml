@@ -1,0 +1,42 @@
+<view class="page-shell home">
+  <view class="masthead">
+    <view>
+      <view class="brand">SBTI</view>
+      <view class="brand-note">知行偏离测试</view>
+    </view>
+    <view class="issue">NO. 001</view>
+  </view>
+
+  <view class="hero panel">
+    <view class="hero-copy">
+      <view class="eyebrow">免费开测 · 不需登录</view>
+      <view class="hero-title">你嘴上的自己，<text>和真正在做的自己，</text>到底差多远？</view>
+      <view class="hero-subtitle">知与行偏离越大，SB 指数越高。</view>
+    </view>
+    <view class="avatar-stage">
+      <view class="stamp">仅供娱乐</view>
+      <persona-avatar symbol="偏" color="#8ee44f" mood="smug" size="large" />
+    </view>
+  </view>
+
+  <button class="primary-button start" bindtap="startQuiz">开始对账 →</button>
+  <view class="quick-facts">
+    <view><text>01</text>都是选择题</view>
+    <view><text>02</text>约 90 秒完成</view>
+    <view><text>03</text>结果当场嘴你</view>
+  </view>
+
+  <view tt:if="{{lastResult}}" class="last-result" bindtap="viewLastResult">
+    <view>上次记录</view>
+    <text>{{lastResult.index}}% · {{lastResult.persona.name}}</text>
+    <text class="last-link">重看结果 →</text>
+  </view>
+
+  <view class="manifesto">
+    <view class="manifesto-number">///</view>
+    <view>
+      <view class="manifesto-title">别选“你想成为的人”。</view>
+      <view class="manifesto-body">选你最近真干过的事。不然这个测试只会配合你继续演。</view>
+    </view>
+  </view>
+</view>

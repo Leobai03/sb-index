@@ -1,0 +1,293 @@
+// Generated from the web app source. Run npm run build:douyin-data after editing the quiz.
+const personas = [
+  {
+    "code": "RULE",
+    "name": "头上长草者",
+    "enneagram": "底层动机 · 怕不够正确",
+    "tagline": "标准浇水，细节施肥，事情死在地里。",
+    "roast": "你不是在做事，你是在给标准浇水。最后标准长得枝繁叶茂，事情连芽都没发。",
+    "serious": "你重视原则和质量。真正的风险不是要求高，而是把“还不够完美”当成无限延期的合法理由。",
+    "tags": [
+      "标准成精",
+      "细节种田",
+      "开工过敏"
+    ],
+    "color": "#ff684b",
+    "lightColor": "#ffddd5",
+    "symbol": "草",
+    "expression": "strict",
+    "pose": "grass"
+  },
+  {
+    "code": "MOM",
+    "name": "人形妈味机",
+    "enneagram": "底层动机 · 怕不被需要",
+    "tagline": "自动操心，强行喂饭，人情云记账。",
+    "roast": "你嘴上说“我都是为你好”，心里的 Excel 已经记了对方欠你几条命。",
+    "serious": "你擅长照顾别人，也容易用付出换取需要感。先问对方要不要，再决定自己给不给。",
+    "tags": [
+      "自动操心",
+      "强行喂饭",
+      "人情记账"
+    ],
+    "color": "#ff82ad",
+    "lightColor": "#ffdeea",
+    "symbol": "妈",
+    "expression": "soft",
+    "pose": "hug"
+  },
+  {
+    "code": "BOSS",
+    "name": "赢麻了王",
+    "enneagram": "底层动机 · 怕显得失败",
+    "tagline": "项目没赢，嘴先麻了，战报已置顶。",
+    "roast": "你的公司目前最稳定的业务，是向朋友圈供应你正在成功的证据。",
+    "serious": "你目标感强、会调动资源，也容易让形象跑在结果前面。把“看起来有进展”换成一个可核验的交付。",
+    "tags": [
+      "战报超前",
+      "人设融资",
+      "赢学入脑"
+    ],
+    "color": "#ffaf20",
+    "lightColor": "#ffefc6",
+    "symbol": "赢",
+    "expression": "smug",
+    "pose": "crown"
+  },
+  {
+    "code": "PAIN",
+    "name": "淋雨主角",
+    "enneagram": "底层动机 · 怕没有独特性",
+    "tagline": "情绪下雨，旁白高清，现实漏水。",
+    "roast": "别人遇到失败会改方案，你遇到失败会站进雨里，给自己的人生补一段高级旁白。",
+    "serious": "你能感知细腻差异，也珍惜真实感。注意别把痛苦变成身份，否则解决问题反而像背叛自己。",
+    "tags": [
+      "情绪暴雨",
+      "旁白满格",
+      "现实漏水"
+    ],
+    "color": "#9a72ed",
+    "lightColor": "#e9dfff",
+    "symbol": "雨",
+    "expression": "sad",
+    "pose": "rain"
+  },
+  {
+    "code": "WIKI",
+    "name": "脑内挖矿工",
+    "enneagram": "底层动机 · 怕自己无知",
+    "tagline": "知识满仓，脑温过高，行动停机。",
+    "roast": "你离成功永远只差最后一篇深度文章，而这篇文章后面通常还有四十篇。",
+    "serious": "你喜欢先理解系统再行动。优势是洞察，风险是把继续学习误认为正在推进。给研究设置截止时间。",
+    "tags": [
+      "脑温过高",
+      "术语出土",
+      "行动停机"
+    ],
+    "color": "#4c86ff",
+    "lightColor": "#dce8ff",
+    "symbol": "脑",
+    "expression": "blank",
+    "pose": "head"
+  },
+  {
+    "code": "SAFE",
+    "name": "缩壳预言家",
+    "enneagram": "底层动机 · 怕失去安全",
+    "tagline": "坏事先知，好事存疑，启动失联。",
+    "roast": "你成功避开了所有可能失败的机会，同时也顺手避开了成功。",
+    "serious": "你对风险敏感，能提前发现漏洞。需要区分“有风险”和“不能开始”，用一次小实验替代整夜预演。",
+    "tags": [
+      "灾难先知",
+      "壳里开会",
+      "启动失联"
+    ],
+    "color": "#15a9a0",
+    "lightColor": "#d3f4f0",
+    "symbol": "缩",
+    "expression": "nervous",
+    "pose": "shell"
+  },
+  {
+    "code": "WIND",
+    "name": "风口吗喽",
+    "enneagram": "底层动机 · 怕错过快乐",
+    "tagline": "春天 AI，夏天 Web3，秋天继续会。",
+    "roast": "每个时代红利你都到过现场，唯一的问题是从来没待到收款那天。",
+    "serious": "你能迅速发现新可能，启动速度很快。增长来自少开一个新坑，把已有项目推进到真实反馈。",
+    "tags": [
+      "热点迁徙",
+      "香蕉融资",
+      "永远开新"
+    ],
+    "color": "#63d63e",
+    "lightColor": "#daf7d1",
+    "symbol": "猴",
+    "expression": "wild",
+    "pose": "monkey"
+  },
+  {
+    "code": "KING",
+    "name": "拿捏虫",
+    "enneagram": "底层动机 · 怕被别人控制",
+    "tagline": "控场结茧，认错过敏，责任吐丝。",
+    "roast": "你的人生没有失败，只有队友、市场和时代轮流辜负你的英明决定。",
+    "serious": "你敢决策、能扛压力。真正的力量也包括允许事实推翻自己，而不是把每次质疑都理解成夺权。",
+    "tags": [
+      "控场结茧",
+      "认错过敏",
+      "责任吐丝"
+    ],
+    "color": "#ef493e",
+    "lightColor": "#ffd8d5",
+    "symbol": "捏",
+    "expression": "angry",
+    "pose": "control"
+  },
+  {
+    "code": "DEAD",
+    "name": "棺材体验官",
+    "enneagram": "底层动机 · 怕冲突破坏平静",
+    "tagline": "遇事先躺，消息已读，灵魂离线。",
+    "roast": "你的核心竞争力是：只要躺得够平，很多问题就会自动升级成别人的问题。",
+    "serious": "你擅长稳定气氛，也容易把自己的需求和关键冲突一起静音。先处理最不舒服的那件事。",
+    "tags": [
+      "提前入土",
+      "冲突静音",
+      "灵魂离线"
+    ],
+    "color": "#7d8793",
+    "lightColor": "#e2e6eb",
+    "symbol": "躺",
+    "expression": "sleepy",
+    "pose": "coffin"
+  },
+  {
+    "code": "LATER",
+    "name": "改天人",
+    "enneagram": "混合动机 · 怕今天真的开始",
+    "tagline": "明日复明日，改天何其多。",
+    "roast": "你不是没开始，你只是把开始安排在一个从不对公众开放的未来。",
+    "serious": "你需要的不是更好的计划，而是把下一步缩小到今天十分钟内可以完成。",
+    "tags": [
+      "未来施工",
+      "今天停运",
+      "日期漂移"
+    ],
+    "color": "#8a77ff",
+    "lightColor": "#e6e1ff",
+    "symbol": "改",
+    "expression": "nervous",
+    "pose": "calendar"
+  },
+  {
+    "code": "OJBK",
+    "name": "差不多神",
+    "enneagram": "混合动机 · 怕麻烦和不和谐",
+    "tagline": "都可以，没关系，最后全有关系。",
+    "roast": "你的生活哲学是“差不多就行”，直到所有差不多一起过来找你结算。",
+    "serious": "你有很强的适应力，但容易用随和跳过重要标准。关键事项需要一个明确底线。",
+    "tags": [
+      "随和成神",
+      "底线隐身",
+      "最后再说"
+    ],
+    "color": "#56c9a5",
+    "lightColor": "#d9f7ed",
+    "symbol": "行",
+    "expression": "soft",
+    "pose": "shrug"
+  },
+  {
+    "code": "RUSH",
+    "name": "先冲牲口",
+    "enneagram": "混合动机 · 怕慢一步就没了",
+    "tagline": "脑子加载中，身体已发射。",
+    "roast": "你行动力确实很强，强到问题还没问完，你已经把错误答案规模化了。",
+    "serious": "快速行动是优势。给高成本决定增加一个最短检查单，避免把速度浪费在返工。",
+    "tags": [
+      "身体发射",
+      "脑子转圈",
+      "返工健身"
+    ],
+    "color": "#ff7b35",
+    "lightColor": "#ffe1cf",
+    "symbol": "冲",
+    "expression": "wild",
+    "pose": "rocket"
+  },
+  {
+    "code": "LOOP",
+    "name": "复盘永动机",
+    "enneagram": "混合动机 · 怕痛苦没有意义",
+    "tagline": "错误照犯，感悟照写，闭环只画。",
+    "roast": "你每次复盘都能获得巨大成长，主要体现在下一篇复盘写得越来越好。",
+    "serious": "反思只有转化为行为约束才算闭环。每次复盘只保留一个下次必改动作。",
+    "tags": [
+      "顿悟循环",
+      "错误续费",
+      "闭环贴图"
+    ],
+    "color": "#c66fe8",
+    "lightColor": "#f2def9",
+    "symbol": "环",
+    "expression": "sad",
+    "pose": "loop"
+  },
+  {
+    "code": "PURE",
+    "name": "高尚穷鬼",
+    "enneagram": "混合动机 · 怕欲望显得俗",
+    "tagline": "嘴追纯粹，手刷余额，心等暴富。",
+    "roast": "你鄙视别人逐利的样子，主要因为自己逐得不够顺利。",
+    "serious": "欲望本身不需要道德化。承认想赚钱、被认可，反而更容易做出一致选择。",
+    "tags": [
+      "道德打光",
+      "余额诚实",
+      "欲望变声"
+    ],
+    "color": "#f1c232",
+    "lightColor": "#fff3c5",
+    "symbol": "纯",
+    "expression": "smug",
+    "pose": "halo"
+  },
+  {
+    "code": "NOPE",
+    "name": "不服砖",
+    "enneagram": "混合动机 · 怕事实没有尊重自己",
+    "tagline": "意见弹回，事实绕行，自尊承重。",
+    "roast": "事实砸到你身上不会留下知识，只会让你变得更加坚硬。",
+    "serious": "坚持并不等于拒绝更新。下次被反驳时，先找一个对方可能说对的最小部分。",
+    "tags": [
+      "事实弹回",
+      "意见防水",
+      "自尊承重"
+    ],
+    "color": "#db5149",
+    "lightColor": "#f8d9d6",
+    "symbol": "砖",
+    "expression": "angry",
+    "pose": "brick"
+  },
+  {
+    "code": "COIN",
+    "name": "余额战士",
+    "enneagram": "混合动机 · 怕钱和体面不能兼得",
+    "tagline": "嘴讲价值，眼看到账，手搓使命。",
+    "roast": "你当然不是为了钱。你只是每隔三分钟，出于人文关怀看一眼余额。",
+    "serious": "商业目标和创造价值并不冲突。把体面的包装换成明确的收入目标和客户价值。",
+    "tags": [
+      "到账凝视",
+      "使命手搓",
+      "价值变现"
+    ],
+    "color": "#26b879",
+    "lightColor": "#d6f5e7",
+    "symbol": "钱",
+    "expression": "smug",
+    "pose": "money"
+  }
+]
+
+module.exports = { personas }

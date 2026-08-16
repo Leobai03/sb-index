@@ -1,0 +1,13 @@
+{
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "autoCompile": true
+  },
+  "appid": "APPID_PLACEHOLDER",
+  "projectname": "知行偏离测试",
+  "douyinProjectType": "native"
+}

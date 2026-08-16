@@ -1,0 +1,72 @@
+<view tt:if="{{result}}" class="page-shell result-page">
+  <view class="result-kicker">对账完成 · 仅供娱乐</view>
+
+  <view class="score-hero panel">
+    <view class="score-heading">SB 指数</view>
+    <view class="score-row">
+      <view class="score-number">{{result.index}}<text>%</text></view>
+      <view class="score-level">
+        <text>{{result.level}}</text>
+        <view>{{result.levelNote}}</view>
+      </view>
+    </view>
+    <view class="score-scale">
+      <view class="scale-fill" style="width: {{result.index}}%;"></view>
+    </view>
+    <view class="scale-label"><text>基本一致</text><text>人设与肉身分家</text></view>
+  </view>
+
+  <view class="persona-section">
+    <view class="persona-art" style="background: {{result.persona.lightColor}};">
+      <view class="persona-code">{{result.persona.code}}</view>
+      <persona-avatar symbol="{{result.persona.symbol}}" color="{{result.persona.color}}" mood="{{result.persona.expression}}" size="large" />
+    </view>
+    <view class="persona-copy">
+      <view class="eyebrow">你的人格类型</view>
+      <view class="persona-name">{{result.persona.name}}</view>
+      <view class="persona-tagline">{{result.persona.tagline}}</view>
+      <view class="persona-roast">{{result.persona.roast}}</view>
+      <view class="tags">
+        <text tt:for="{{result.persona.tags}}" tt:key="*this">#{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-heading">
+    <text>01</text>
+    <view>你最拧巴的三笔账</view>
+  </view>
+  <view class="gap-list">
+    <view class="gap-card" tt:for="{{result.topGaps}}" tt:key="pairId">
+      <view class="gap-top">
+        <view>{{index + 1}}. {{item.name}}</view>
+        <text>{{item.normalizedGap}}%</text>
+      </view>
+      <view class="gap-compare">
+        <view><text>嘴上</text>{{item.beliefText}}</view>
+        <view><text>实际</text>{{item.behaviorText}}</view>
+      </view>
+      <view class="gap-insight">{{item.insight}}</view>
+    </view>
+  </view>
+
+  <view class="section-heading">
+    <text>02</text>
+    <view>六维偏离账单</view>
+  </view>
+  <view class="dimension-list panel">
+    <view class="dimension" tt:for="{{result.dimensionList}}" tt:key="name">
+      <view class="dimension-label"><text>{{item.name}}</text><text>{{item.score}}</text></view>
+      <view class="dimension-track"><view style="width: {{item.score}}%;"></view></view>
+    </view>
+  </view>
+
+  <view class="serious panel">
+    <view class="eyebrow">笑完了，说句人话</view>
+    <view>{{result.persona.serious}}</view>
+  </view>
+
+  <button class="primary-button share-button" open-type="share">发给朋友对账</button>
+  <button class="secondary-button restart-button" bindtap="restart">换个顺序重测</button>
+  <view class="home-link" bindtap="goHome">返回首页</view>
+</view>

@@ -1,0 +1,27 @@
+<view class="page-shell types-page">
+  <view class="eyebrow">SBTI 人格档案</view>
+  <view class="types-title">每个人都有一种<text>拧巴姿势。</text></view>
+  <view class="types-note">点开看嘴，别急着对号入座。</view>
+
+  <view class="persona-grid">
+    <view
+      class="persona-card {{activeCode === item.code ? 'persona-card--active' : ''}}"
+      tt:for="{{personas}}"
+      tt:key="code"
+      data-code="{{item.code}}"
+      bindtap="togglePersona"
+      style="background: {{item.lightColor}};"
+    >
+      <view class="card-code">{{item.code}}</view>
+      <persona-avatar symbol="{{item.symbol}}" color="{{item.color}}" mood="{{item.expression}}" size="small" />
+      <view class="card-name">{{item.name}}</view>
+      <view class="card-tagline">{{item.tagline}}</view>
+      <view tt:if="{{activeCode === item.code}}" class="card-detail">
+        <view>{{item.roast}}</view>
+        <text>{{item.serious}}</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="primary-button" bindtap="startQuiz">我不猜了，直接测</button>
+</view>

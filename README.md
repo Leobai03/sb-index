@@ -56,12 +56,24 @@ npm run deploy
 
 自定义域名配置模板见 [`deploy/Caddyfile.example`](./deploy/Caddyfile.example)。
 
+## 抖音内完成测试
+
+仓库已包含原生抖音小程序版本，代码位于 [`douyin-miniapp/`](./douyin-miniapp)。它不是网页 `webview` 套壳，用户可从短视频小程序锚点进入，在抖音内完成答题、查看结果和分享。
+
+```bash
+# 把网页版权威题库同步到抖音小程序并验证
+npm run test:douyin
+```
+
+平台侧的主体入驻、ICP 备案、AppID 配置、版本提审和短视频挂载步骤见 [`docs/抖音内闭环上线执行单_20260816.md`](./docs/抖音内闭环上线执行单_20260816.md)。
+
 ## 验证
 
 ```bash
 npm run lint
 npm run build
 npm run test:distribution
+npm run test:douyin
 npm run test:server
 
 # 另一个终端先运行 npm run dev
@@ -79,6 +91,8 @@ src/lib/shareCard.ts 结果海报生成
 src/components/    原创低多边形角色、雷达图、付费报告与作者模块
 server/            下单、回调验签、查单补偿和报告交付服务
 scripts/           分布模拟与端到端测试
+douyin-miniapp/    抖音原生小程序：开测、答题、结果、人格图鉴、说明
+docs/              抖音内闭环上线与宣发执行单
 ```
 
 所有题目、人格名称、解释文案和角色 SVG 均为本项目原创。结果仅供娱乐与自我观察，不用于心理、医学或职业诊断。

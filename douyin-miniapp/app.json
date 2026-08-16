@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/quiz/quiz",
+    "pages/result/result",
+    "pages/types/types",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarTitleText": "知行偏离测试",
+    "navigationBarBackgroundColor": "#f3f0e5",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f3f0e5",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#69675f",
+    "selectedColor": "#171713",
+    "backgroundColor": "#fffdf6",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "开测" },
+      { "pagePath": "pages/types/types", "text": "人格" },
+      { "pagePath": "pages/about/about", "text": "说明" }
+    ]
+  }
+}

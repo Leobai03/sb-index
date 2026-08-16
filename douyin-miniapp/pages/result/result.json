@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "对账结果",
+  "usingComponents": {
+    "persona-avatar": "/components/persona-avatar/persona-avatar"
+  }
+}

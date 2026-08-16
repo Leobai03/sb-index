@@ -1,0 +1,24 @@
+<view class="avatar-frame avatar-frame--{{size}}">
+  <view class="avatar-art avatar-art--{{size}}" style="--avatar-color: {{color}};">
+    <view class="antenna antenna--left"></view>
+    <view class="antenna antenna--right"></view>
+    <view class="head">
+      <view class="hair hair--left"></view>
+      <view class="hair hair--right"></view>
+      <view class="face">
+        <view class="brow brow--left {{mood}}"></view>
+        <view class="brow brow--right {{mood}}"></view>
+        <view class="eye eye--left"></view>
+        <view class="eye eye--right"></view>
+        <view class="nose"></view>
+        <view class="mouth {{mood}}"></view>
+      </view>
+    </view>
+    <view class="body">
+      <view class="neck"></view>
+      <view class="torso"><text>{{symbol}}</text></view>
+      <view class="arm arm--left"></view>
+      <view class="arm arm--right"></view>
+    </view>
+  </view>
+</view>
